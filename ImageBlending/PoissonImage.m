@@ -1,5 +1,3 @@
-function [seamless,A] = PoissonImageEditing
-
 % read images 
 target= im2double(imread('target_3.jpg')); 
 source= im2double(imread('source_3.jpg')); 
@@ -7,6 +5,12 @@ source= im2double(imread('source_3.jpg'));
 % mask image
 mask=imread('mask_3.bmp');
 
+[seamlessA,A] = PoissonImageEditing(target,source, mask);
+figure(1), imshow(target);
+figure(2), imshow(seamlessA);
+figure(3), imshow(source);
+
+function [seamless,A] = PoissonImageEditing(target,source,mask)
 % image offsets
 row_offset=20;
 col_offset=40; 
@@ -31,8 +35,8 @@ for ib=1:N
     
     Np(ib)=  double((row_offset+i> 1))+ ...
              double((col_offset+j> 1))+ ...
-             double((row_offset+i< 100)) + ...
-             double((col_offset+j< 100));
+             double((row_offset+i< size(target,1))) + ...
+             double((col_offset+j< size(target,2)));
 end
 
 
@@ -43,7 +47,7 @@ A = sparse(N,N);
 for ib = 1:N
     i = ir(ib);
     j = ic(ib);
-    A(ib,ib) = 4;
+    A(ib,ib) = Np(ib);
     if (i>1) && (mask(i-1,j) == 1)
         A(ib,mask_id(i-1,j)) = -1;
     end
@@ -118,10 +122,8 @@ for color=1:3 % solve for each colorchannel
     
      for ib=1:N
            seamless(row_offset+ir(ib),col_offset+ic(ib),color) = x(ib);
-     end
-    
+     end    
+end
 end
 
 
-%figure(1), imshow(target);
-%figure(2), imshow(seamless);
