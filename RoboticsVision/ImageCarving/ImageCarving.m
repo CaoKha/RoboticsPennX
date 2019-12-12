@@ -7,7 +7,6 @@ function Ic = ImageCarvingFunction(N)
 
 % read image
 I = im2double(imread('waterfall.png'));
-size(I)
 % get grayscale image
 Ig0 = rgb2gray(im2double(I));
 
