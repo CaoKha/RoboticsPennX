@@ -28,7 +28,7 @@ syms m1 m2 real
 
 % joint velocities, where qd1 stands for 'q dot 1', the
 % first derivative of q1 with respect to time
-syms qd1 qd2 real
+syms qd1 qd2 qdd1 qdd2 real
 
 % acceleration due to gravity (assume g has the correct sign); in other words, if
 % gravity were to act in the 'x' direction, the gravity vector would be [g 0 0]
